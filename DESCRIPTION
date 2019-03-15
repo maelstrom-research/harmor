@@ -1,0 +1,19 @@
+Package: harmor
+Type: Package
+Title: Dataset Harmonization Utils
+Version: 0.1.0
+Author: Who wrote it
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+Depends:
+    opalr
+Suggests:
+    knitr
+License: GPL-3
+LazyData: true
+URL: https://maelstrom-research.org
+BugReports: https://github.com/maelstrom-research/harmor
+RoxygenNote: 6.1.1
+VignetteBuilder: knitr
+Encoding: UTF-8

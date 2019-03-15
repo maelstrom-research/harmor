@@ -1,0 +1,22 @@
+### {{label}}
+
+**Name**: {{name}}
+
+**Description**:  {{description}}
+
+**Value type**: {{valueType}}
+
+**Unit**: {{unit}}
+
+{{categories}}
+
+**Harmonization status**: {{status}}
+
+**Harmonization comment**: {{comment}}
+
+**Script**:
+
+```{r, echo=TRUE}
+#This is where the R-script will be written
+```
+

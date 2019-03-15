@@ -1,0 +1,13 @@
+.Rhistory
+*.so
+*.o
+*.dll
+*.Rproj
+.Rproj.user
+*.html
+figure
+.RData
+inst/doc
+inst/template/*.html
+vignettes/*.R
+_harmobook

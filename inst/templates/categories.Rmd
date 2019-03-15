@@ -1,0 +1,5 @@
+**Category coding**:
+
+Code      | Label     | Missing
+--------- | --------- | ---------
+{{category}}
