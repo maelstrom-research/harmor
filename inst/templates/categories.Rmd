@@ -1,5 +1,5 @@
 **Category coding**:
 
-Code      | Label     | Missing
---------- | --------- | ---------
+Code      | Label    
+:--------- | :---------
 {{category}}

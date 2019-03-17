@@ -5,8 +5,8 @@
 \title{Make a R markdown book}
 \usage{
 makeHarmonizationBook(opal, project, table, taxonomy = "Mlstr_area",
-  locale = "en", outDir = file.path(getwd(), "_harmobook"),
-  outFile = "04-domains.Rmd")
+  vocabularies = NULL, locale = "en", outDir = file.path(getwd(),
+  "_harmobook"), outFile = "04-domains.Rmd")
 }
 \arguments{
 \item{opal}{Opal connection object.}
@@ -16,6 +16,8 @@ makeHarmonizationBook(opal, project, table, taxonomy = "Mlstr_area",
 \item{table}{Table name from which the data dictionary should be extracted.}
 
 \item{taxonomy}{Taxonomy name to group variables by vocabularies and terms.}
+
+\item{vocabularies}{Vocabularies that shall be included, default is all (NULL value).}
 
 \item{locale}{The locale in which the labels should be extracted (default is "en").}
 

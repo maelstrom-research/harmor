@@ -7,4 +7,10 @@ o <- opal.login()
 makeHarmonizationBook(o, "CPTP", "Coreqx_final")
 opal.logout(o)
 
-harmor:::.makeHarmonizationBook(vars, taxo, outDir = "/home/yannick/projects/maelstrom-research/harmobook-demo")
+harmor:::.makeHarmonizationBook(vars, taxo,
+                                vocabularies.filter = function(voc) { voc$name == "Sociodemographic_economic_characteristics" },
+                                outDir = "../harmobook-demo")
+
+harmor:::.makeHarmonizationBook(vars, taxo,
+                                vocabularies.filter = function(voc) { TRUE },
+                                outDir = "../harmobook-demo")

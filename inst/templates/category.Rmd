@@ -1,1 +1,1 @@
-{{name}} | {{label}} | {{missing}}
+{{name}}{{missing}} | {{label}}
