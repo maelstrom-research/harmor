@@ -1,0 +1,3 @@
+### {{label}}
+
+See in section [{{term.label}}](#{{term.name}}) the definition of the variable: **[{{name}}](#{{name}})**.

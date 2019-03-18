@@ -1,10 +1,24 @@
 
 #' @keywords internal
 .na2str <- function(value) {
-  if (is.na(value)) {
+  if (.is.empty(value)) {
     "N/A"
   } else {
     as.character(value)
+  }
+}
+
+#' @keywords internal
+.is.empty <- function(value) {
+  if (length(value) == 0 || is.null(value) || is.na(value)) {
+    TRUE
+  } else {
+    str <- as.character(value)
+    if (nchar(str) == 0) {
+      TRUE
+    } else {
+      FALSE
+    }
   }
 }
 

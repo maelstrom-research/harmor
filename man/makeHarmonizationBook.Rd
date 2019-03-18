@@ -6,7 +6,8 @@
 \usage{
 makeHarmonizationBook(opal, project, table, taxonomy = "Mlstr_area",
   vocabularies = NULL, locale = "en", outDir = file.path(getwd(),
-  "_harmobook"), outFile = "04-domains.Rmd")
+  "_harmobook"), outFiles = list(domains = "04-domains.Rmd", index =
+  "06-index.Rmd"))
 }
 \arguments{
 \item{opal}{Opal connection object.}
@@ -24,7 +25,7 @@ makeHarmonizationBook(opal, project, table, taxonomy = "Mlstr_area",
 \item{outDir}{Output folder where the R markdown templates should be produced (default is
 '_harmobook' folder in the current working directory).}
 
-\item{outFile}{Name of the output file.}
+\item{outFiles}{Names of the output files, idenitified by "domains" or "index".}
 }
 \description{
 Get the variables from a Opal table and dump a book of R markdown templates,

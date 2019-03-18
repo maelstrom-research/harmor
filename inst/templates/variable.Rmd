@@ -2,21 +2,25 @@
 
 **Name**: {{name}}
 
+#### Properties {-}
+
 **Description**:  {{description}}
 
-**Value type**: {{valueType}}
+**Value type**: `{{valueType}}`
 
-**Unit**: {{unit}}
+**Unit**: `{{unit}}`
 
 {{categories}}
 
-**Harmonization status**: {{status}}
+#### Harmonization {-}
 
-**Harmonization comment**: {{comment}}
+**Status**: `{{Mlstr_harmo.status}}`
+
+**Comment**: {{Mlstr_harmo.comment}}
 
 **Script**:
 
-```{r, echo=TRUE}
+```{r {{name}}, echo=TRUE}
 #This is where the R-script will be written
 ```
 
