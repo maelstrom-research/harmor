@@ -1,7 +1,10 @@
+# dependencies
+devtools::install_github("obiba/opalr", dependencies = TRUE)
+
 library(opalr)
 library(harmor)
-options(verbose=F)
-o <- opal.login()
+
+o <- opal.login("administrator", "password", "https://opal-demo.obiba.org")
 
 # get a opal table as a tibble in client R session
 cnsim1 <- getOpalTable(o, "datashield", "CNSIM1")

@@ -1,7 +1,7 @@
 library(opalr)
 library(harmor)
 
-o <- opal.login()
+o <- opal.login("administrator", "password", "https://opal-demo.obiba.org")
 # complete book with all the domains
 makeHarmonizationBook(o, "CPTP", "Coreqx_final", outDir = "../harmobook-demo")
 # book for a set of domains
