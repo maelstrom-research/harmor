@@ -172,7 +172,7 @@ makeHarmonizationBook <- function(opal, project, table, taxonomy = "Mlstr_area",
 .makeCategory <- function(templates, name, label, missing) {
   miss <- ifelse(missing == "T", "TRUE", "FALSE")
   outCat <- gsub("\\{\\{name\\}\\}", name, templates$category)
-  outCat <- gsub("\\{\\{label\\}\\}", .na2str(label), outCat)
+  outCat <- gsub("\\{\\{label\\}\\}", .norm2nastr(label), outCat)
   outCat <- gsub("\\{\\{missing\\}\\}", miss, outCat)
   paste(outCat, collapse = "\n")
 }
@@ -204,10 +204,10 @@ makeHarmonizationBook <- function(opal, project, table, taxonomy = "Mlstr_area",
   categories.missing <- as.character(variable[["categories.missing"]])
 
   outVar <- gsub("\\{\\{name\\}\\}", name, templates$variable)
-  outVar <- gsub("\\{\\{label\\}\\}", .na2str(label), outVar)
-  outVar <- gsub("\\{\\{description\\}\\}", .na2str(description), outVar)
-  outVar <- gsub("\\{\\{valueType\\}\\}", .na2str(valueType), outVar)
-  outVar <- gsub("\\{\\{unit\\}\\}", .na2str(unit), outVar)
+  outVar <- gsub("\\{\\{label\\}\\}", .norm2nastr(label), outVar)
+  outVar <- gsub("\\{\\{description\\}\\}", .norm2nastr(description), outVar)
+  outVar <- gsub("\\{\\{valueType\\}\\}", .norm2nastr(valueType), outVar)
+  outVar <- gsub("\\{\\{unit\\}\\}", .norm2nastr(unit), outVar)
 
   if (!is.na(categories)) {
     outCats <- .makeCategories(templates, categories, categories.label, categories.missing)
@@ -223,7 +223,7 @@ makeHarmonizationBook <- function(opal, project, table, taxonomy = "Mlstr_area",
     harmo.status <- "complete|undetermined|impossible"
   }
   outVar <- gsub("\\{\\{Mlstr_harmo.status\\}\\}", harmo.status, outVar)
-  outVar <- gsub("\\{\\{Mlstr_harmo.comment\\}\\}", .na2str(harmo.comment), outVar)
+  outVar <- gsub("\\{\\{Mlstr_harmo.comment\\}\\}", .norm2nastr(harmo.comment), outVar)
 
   paste(outVar, collapse = "\n")
 }
@@ -233,7 +233,7 @@ makeHarmonizationBook <- function(opal, project, table, taxonomy = "Mlstr_area",
   name <- as.character(variable[["name"]])
   label <- as.character(variable[["label"]])
   outVar <- gsub("\\{\\{name\\}\\}", name, templates[["variable-ref"]])
-  outVar <- gsub("\\{\\{label\\}\\}", .na2str(label), outVar)
+  outVar <- gsub("\\{\\{label\\}\\}", .norm2nastr(label), outVar)
   paste(outVar, collapse = "\n")
 }
 

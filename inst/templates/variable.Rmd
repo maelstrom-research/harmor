@@ -8,7 +8,7 @@
 
 **Value type**: `{{valueType}}`
 
-**Unit**: `{{unit}}`
+`r if ("{{unit}}" != "N/A") "**Unit**: {{unit}}"`
 
 {{categories}}
 

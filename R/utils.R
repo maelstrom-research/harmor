@@ -1,6 +1,6 @@
 
 #' @keywords internal
-.na2str <- function(value) {
+.norm2nastr <- function(value) {
   if (.is.empty(value)) {
     "N/A"
   } else {
