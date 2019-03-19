@@ -1,0 +1,5 @@
+# Variable Index
+
+List of the variable names and labels, and the sections where they appear.
+
+{{variable-index}}

@@ -1,1 +1,1 @@
-{{name}}{{missing}} | {{label}}
+{{name}} | {{label}} | `r if ({{missing}}) "**x**"`

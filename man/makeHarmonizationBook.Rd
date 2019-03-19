@@ -22,8 +22,9 @@ makeHarmonizationBook(opal, project, table, taxonomy = "Mlstr_area",
 
 \item{locale}{The locale in which the labels should be extracted (default is "en").}
 
-\item{outDir}{Output folder where the R markdown templates should be produced (default is
-'_harmobook' folder in the current working directory).}
+\item{outDir}{Output folder where the R markdown files will be produced (default is
+'_harmobook' folder in the current working directory). Also used to find R markdown templates (in the
+'_templates' subfolder); if non is found the 'harmor' package default ones will be used.}
 
 \item{outFiles}{Names of the output files, idenitified by "domains" or "index".}
 }

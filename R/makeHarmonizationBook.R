@@ -9,8 +9,9 @@
 #' @param locale The locale in which the labels should be extracted (default is "en").
 #' @param taxonomy Taxonomy name to group variables by vocabularies and terms.
 #' @param vocabularies Vocabularies that shall be included, default is all (NULL value).
-#' @param outDir Output folder where the R markdown templates should be produced (default is
-#' '_harmobook' folder in the current working directory).
+#' @param outDir Output folder where the R markdown files will be produced (default is
+#' '_harmobook' folder in the current working directory). Also used to find R markdown templates (in the
+#' '_templates' subfolder); if non is found the 'harmor' package default ones will be used.
 #' @param outFiles Names of the output files, idenitified by "domains" or "index".
 #'
 #' @import opalr
@@ -41,6 +42,7 @@ makeHarmonizationBook <- function(opal, project, table, taxonomy = "Mlstr_area",
   templates[["variable-ref"]] <- .getTemplate("variable-ref", outDir)
   templates[["categories"]] <- .getTemplate("categories", outDir)
   templates[["category"]] <- .getTemplate("category", outDir)
+  templates[["index"]] <- .getTemplate("index", outDir)
   templates[["variable-index"]] <- .getTemplate("variable-index", outDir)
 
   if (!dir.exists(outDir)) {
@@ -99,7 +101,7 @@ makeHarmonizationBook <- function(opal, project, table, taxonomy = "Mlstr_area",
     conn <- file(file.path(outDir, outFiles$index), "w+")
     sink(conn)
 
-    cat("# Index\n\n")
+    outRefs <- c()
     for (i in 1:nrow(variables)) {
       variable <- variables[i,]
       name <- as.character(variable[["name"]])
@@ -133,11 +135,13 @@ makeHarmonizationBook <- function(opal, project, table, taxonomy = "Mlstr_area",
           outRef <- gsub("\\{\\{name\\}\\}", paste0("**[", name, "](#", name,")**"), templates[["variable-index"]])
           outRef <- gsub("\\{\\{label\\}\\}", label, outRef)
           outRef <- gsub("\\{\\{links\\}\\}", paste(termLinks, collapse = ", "), outRef)
-          cat(paste(outRef, collapse = "\n"))
-          cat("\n\n")
+          outRefs <- append(outRefs, paste(outRef, collapse = "\n"))
+          outRefs <- append(outRefs, ("\n\n"))
         }
       }
     }
+    cat(paste(gsub("\\{\\{variable-index\\}\\}", paste(outRefs, collapse = "\n"), templates$index), collapse = "\n"))
+
 
     sink()
     flush(conn)
@@ -166,10 +170,7 @@ makeHarmonizationBook <- function(opal, project, table, taxonomy = "Mlstr_area",
 
 #' @keywords internal
 .makeCategory <- function(templates, name, label, missing) {
-  miss <- ""
-  if (.na2str(missing) == "T") {
-    miss <- "*"
-  }
+  miss <- ifelse(missing == "T", "TRUE", "FALSE")
   outCat <- gsub("\\{\\{name\\}\\}", name, templates$category)
   outCat <- gsub("\\{\\{label\\}\\}", .na2str(label), outCat)
   outCat <- gsub("\\{\\{missing\\}\\}", miss, outCat)
