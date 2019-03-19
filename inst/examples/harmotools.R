@@ -18,7 +18,7 @@ annotations(cnsim1)
 # save the new tibble into a project
 saveOpalTable(o, cnsim1, "datashield", "CNSIM4", overwrite = TRUE, force = TRUE)
 
-# get the saved table and verifies the annotations
+# get the saved table and verify the annotations
 cnsim4 <- getOpalTable(o, "datashield", "CNSIM4")
 annotations(cnsim4)
 
@@ -32,7 +32,7 @@ annot
 opal.annotate(o, "datashield", "CNSIM4", annot)
 opal.annotations(o, "datashield", "CNSIM4")
 
-# remove annotations directly
+# remove or update annotations directly
 annot <- data.frame(variable=c("LAB_HDL", "LAB_TRIG"),
                     taxonomy=rep("Mlst_harmo", 2), vocabulary=rep("status", 2), term=c("impossible", NA))
 annot
