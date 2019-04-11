@@ -1,0 +1,52 @@
+---
+title: "Harmonization Process"
+author: "Yannick Marcon"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Harmonization Process}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The harmonization process prerequisites are:
+
+1. Having access to a Opal server with write premission in a project and premission to use R,
+2. Having a definition of the targetted data schema,
+3. Having access to one or more study-specific dataset that will be used to build the harmonized dataset.
+
+## Implement the Data Schema
+
+The targetted data schema must be prepared: definition of the targeted harmonization variables with their proper annotations. This can
+be done by different ways:
+
+* directly in Opal,
+* or in R, then saved in Opal.
+
+Functions that can be used: `getOpalTable()`, `annotate()`, `annotations()`, `saveOpalTable()`.
+
+## Generate the Harmonization Books
+
+From the data schema, one book per study will be generated. Each harmonization book will have placeholders for:
+
+* the description of the harmonization scientific decisions (literature references, methods, etc.),
+* the R scripts for deriving study-specific data into each of the harmonized variables.
+
+The harmonization book can be designed for one or more domains of interest (Lifetyle and behaviors, Diseases, etc.).
+
+Functions that can be used: `makeHarmonizationBook()`.
+
+## Implement the Harmonization Books
+
+In the R markdown files of the harmonization book, implement:
+
+* the extraction of the study-specific datasets which are the data to be derived,
+* the derivation of the study-specific variables to the harmonized ones,
+* the annotation of each harmonized variable with harmonization status and description,
+* the saving of the resulting dataset in a Opal project.
+
+Functions that can be used: `getOpalTable()`, `annotate()`, `annotations()`, `saveOpalTable()`.
+
+## Execute the Harmonization Book
+
+The book will execute the R code chuncks that will perform the harmonization for the study, resulting in one or more datasets saved as Opal tables.
