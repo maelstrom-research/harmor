@@ -45,3 +45,24 @@ annotate <- function(tibble, variables = NULL, taxonomy = "Mlstr_area", vocabula
   }
   tibble
 }
+
+#' Set variable annotation with Harmonization Status term
+#'
+#' Apply or remove an harmonization status annotation from a set of variables. The harmonization status
+#' is described by the "status" vocabulary in the "Mlstr_harmo" taxonomy.
+#'
+#' @param tibble Tibble to be annotated
+#' @param variables A character vector of variable names to be annotated. If NULL or empty, all
+#' the columns of the tibble will be annotated.
+#' @param status The harmonization status to apply: 'complete', 'undetermined' or 'impossible'. If NULL, the annotation will be deleted.
+#' @return The annotated tibble
+#'
+#' @export
+annotateHarmoStatus <- function(tibble, variables = NULL, status) {
+  if (is.null(status) || status %in% c("complete", "undetermined", "impossible")) {
+    annotate(tibble, variables, "Mlstr_harmo", "status", status)
+  } else {
+    stop("Not a valid harmonization status: ", status, call. = FALSE)
+  }
+
+}

@@ -21,20 +21,22 @@ saveOpalTable(o, cnsim1, "datashield", "CNSIM4", overwrite = TRUE, force = TRUE)
 # get the saved table and verify the annotations
 cnsim4 <- getOpalTable(o, "datashield", "CNSIM4")
 annotations(cnsim4)
+cnsim4 <- annotateHarmoStatus(cnsim4, status = "undetermined")
+annotations(cnsim4)
 
 # data dictionary can also be retrieved directly (see one column per vocabulary)
-opal.variables(o, "datashield", "CNSIM4")
+cnsim4_vars <- opal.variables(o, "datashield", "CNSIM4")
 
 # apply annotations directly
 annot <- data.frame(variable=c("LAB_HDL", "LAB_GLUC_ADJUSTED", "LAB_TRIG"),
-                    taxonomy=rep("Mlst_harmo", 3), vocabulary=rep("status", 3), term=rep("complete", 3))
+                    taxonomy=rep("Mlstr_harmo", 3), vocabulary=rep("status", 3), term=rep("complete", 3))
 annot
 opal.annotate(o, "datashield", "CNSIM4", annot)
 opal.annotations(o, "datashield", "CNSIM4")
 
 # remove or update annotations directly
 annot <- data.frame(variable=c("LAB_HDL", "LAB_TRIG"),
-                    taxonomy=rep("Mlst_harmo", 2), vocabulary=rep("status", 2), term=c("impossible", NA))
+                    taxonomy=rep("Mlstr_harmo", 2), vocabulary=rep("status", 2), term=c("impossible", NA))
 annot
 opal.annotate(o, "datashield", "CNSIM4", annot)
 opal.annotations(o, "datashield", "CNSIM4")
