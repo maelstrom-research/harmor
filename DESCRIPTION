@@ -15,7 +15,8 @@ Description: This package is a toolbox for the ones willing to implement a datas
     from the definition of a "book" of R markdown files organized according to a harmonization data
     schema, to utility functions to manage data and dictionaries in "Opal".
 Depends:
-    opalr
+    opalr,
+    jsonlite
 Suggests:
     knitr,
     htmltools,

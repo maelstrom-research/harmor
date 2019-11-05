@@ -6,7 +6,7 @@
 #' @param variables A data frame with one row per variable (column name) and then one column per property/attribute.
 #' @param categories A data frame with one row per category (columns variable and name) and then column per property/attribute.
 #'
-#' @export
+#' @keywords internal
 applyDictionary <- function(tibble, variables, categories = NULL) {
   names <- names(tibble)
   applyAttribute <- function(attrs, name, value) {

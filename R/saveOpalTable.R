@@ -1,7 +1,8 @@
 #' Save the tibble as a Opal table
 #'
 #' Assign the tibble from the R client-side session to the R session-side session with the provided
-#' symbol name and import it into the Opal project.
+#' symbol name and import it into the Opal project. If variables dictionary is provided, it will be applied after
+#' the import.
 #'
 #' @param opal Opal connection object.
 #' @param tibble The tibble object to be imported.
@@ -14,9 +15,13 @@
 #' @param policy Identifiers policy: 'required' (each identifiers must be mapped prior importation (default)), 'ignore' (ignore unknown identifiers) and 'generate' (generate a system identifier for each unknown identifier).
 #' @param id.name The name of the column representing the entity identifiers. Default is 'id'.
 #' @param type Entity type (what the data are about). Default is 'Participant'
+#' @param variables A data frame with one row per variable (column name) and then one column per property/attribute (Opal Excel format).
+#' @param categories A data frame with one row per category (columns variable and name) and then column per property/attribute (Opal Excel format). If there are
+#' no categories, this parameter is optional.
 #' @return An invisible logical indicating whether the destination table exists.
 #' @export
-saveOpalTable <- function(opal, tibble, project, table, overwrite = TRUE, force = FALSE, identifiers=NULL, policy='required', id.name='id', type='Participant') {
+#' @import jsonlite
+saveOpalTable <- function(opal, tibble, project, table, overwrite = TRUE, force = FALSE, identifiers=NULL, policy='required', id.name='id', type='Participant', variables = NULL, categories = NULL) {
   if (!("tbl" %in% class(tibble))) {
     stop("The tibble parameter must be a tibble.")
   }
@@ -41,6 +46,13 @@ saveOpalTable <- function(opal, tibble, project, table, overwrite = TRUE, force 
 
   message("Importing ", table, " into ", project, " ...")
   opal.symbol_import(opal, table, project = project, identifiers = identifiers, policy = policy, id.name = id.name, type = type)
+
+  # update dictionary
+  if (!is.null(variables)) {
+    message("Updating ", table, " dictionary ...")
+    body <- .toJSONVariables(table=table, variables = variables, categories = categories)
+    opal.post(opal, "datasource", project, "table", table, "variables", contentType = "application/json", body = body)
+  }
 
   tryCatch(opal.symbol_rm(opal, table))
   invisible(table %in% opal.datasource(opal, project)$table)

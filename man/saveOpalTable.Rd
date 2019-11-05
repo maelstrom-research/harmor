@@ -6,7 +6,8 @@
 \usage{
 saveOpalTable(opal, tibble, project, table, overwrite = TRUE,
   force = FALSE, identifiers = NULL, policy = "required",
-  id.name = "id", type = "Participant")
+  id.name = "id", type = "Participant", variables = NULL,
+  categories = NULL)
 }
 \arguments{
 \item{opal}{Opal connection object.}
@@ -29,11 +30,17 @@ imported). Otherwise the table will be updated (data dictionaries merge may conf
 \item{id.name}{The name of the column representing the entity identifiers. Default is 'id'.}
 
 \item{type}{Entity type (what the data are about). Default is 'Participant'}
+
+\item{variables}{A data frame with one row per variable (column name) and then one column per property/attribute (Opal Excel format).}
+
+\item{categories}{A data frame with one row per category (columns variable and name) and then column per property/attribute (Opal Excel format). If there are
+no categories, this parameter is optional.}
 }
 \value{
 An invisible logical indicating whether the destination table exists.
 }
 \description{
 Assign the tibble from the R client-side session to the R session-side session with the provided
-symbol name and import it into the Opal project.
+symbol name and import it into the Opal project. If variables dictionary is provided, it will be applied after
+the import.
 }
