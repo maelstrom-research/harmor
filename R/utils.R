@@ -111,7 +111,8 @@
     attrs <- list()
     j <- 1
     for (col in varCols) {
-      if (!(col %in% c("table", "name", "valueType", "entityType", "unit", "mimeType", "referencedEntityType", "repeatable", "occurrenceGroup", "index"))) {
+      if (!(col %in% c("table", "name", "valueType", "entityType", "unit", "mimeType", "referencedEntityType", "repeatable", "occurrenceGroup", "index"))
+          && !is.empty(var[[col]])) {
         attr <- .splitAttributeKey(col)
         attr$value <- jsonlite::unbox(var[[col]])
         attrs[[j]] <- attr
@@ -140,7 +141,7 @@
           attrs <- list()
           j <- 1
           for (col in catCols) {
-            if (!(col %in% c("table", "variable", "name", "missing"))) {
+            if (!(col %in% c("table", "variable", "name", "missing")) && !is.empty(cat[[col]])) {
               attr <- .splitAttributeKey(col)
               attr$value <- jsonlite::unbox(cat[[col]])
               attrs[[j]] <- attr
