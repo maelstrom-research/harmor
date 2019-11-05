@@ -2,7 +2,7 @@
 #'
 #' Apply or remove an annotation from a set of variables.
 #'
-#' @param tibble Tibble to be annotated
+#' @param tibble Tibble to be annotated.
 #' @param variables A character vector of variable names to be annotated. If NULL or empty, all
 #' the columns of the tibble will be annotated.
 #' @param taxonomy The taxonomy to which the vocabulary belongs. If NULL, the annotation is a simple
@@ -51,7 +51,7 @@ annotate <- function(tibble, variables = NULL, taxonomy = "Mlstr_area", vocabula
 #' Apply or remove an harmonization status annotation from a set of variables. The harmonization status
 #' is described by the "status" vocabulary in the "Mlstr_harmo" taxonomy.
 #'
-#' @param tibble Tibble to be annotated
+#' @param tibble Tibble to be annotated.
 #' @param variables A character vector of variable names to be annotated. If NULL or empty, all
 #' the columns of the tibble will be annotated.
 #' @param status The harmonization status to apply: 'complete', 'undetermined' or 'impossible'. If NULL, the annotation will be deleted.

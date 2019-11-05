@@ -3,6 +3,7 @@
 export(annotate)
 export(annotateHarmoStatus)
 export(annotations)
+export(applyDictionary)
 export(getOpalTable)
 export(makeHarmonizationBook)
 export(saveOpalTable)

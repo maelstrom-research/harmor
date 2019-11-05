@@ -7,7 +7,7 @@
 annotateHarmoStatus(tibble, variables = NULL, status)
 }
 \arguments{
-\item{tibble}{Tibble to be annotated}
+\item{tibble}{Tibble to be annotated.}
 
 \item{variables}{A character vector of variable names to be annotated. If NULL or empty, all
 the columns of the tibble will be annotated.}

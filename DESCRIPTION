@@ -17,7 +17,10 @@ Description: This package is a toolbox for the ones willing to implement a datas
 Depends:
     opalr
 Suggests:
-    knitr
+    knitr,
+    htmltools,
+    testthat,
+    tibble
 License: GPL-3
 LazyData: true
 URL: https://maelstrom-research.org https://www.obiba.org/pages/products/opal/
