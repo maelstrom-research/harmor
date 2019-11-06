@@ -4,7 +4,7 @@
 \alias{getOpalTable}
 \title{Get a Opal table as a tibble}
 \usage{
-getOpalTable(opal, project, table, variables = NULL)
+getOpalTable(opal, project, table, variables = NULL, missings = TRUE)
 }
 \arguments{
 \item{opal}{Opal connection object.}
@@ -14,6 +14,8 @@ getOpalTable(opal, project, table, variables = NULL)
 \item{table}{Table name from which the tibble should be extracted.}
 
 \item{variables}{List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods}
+
+\item{missings}{Include the missing values (default is TRUE).}
 }
 \description{
 Shortcut function to assign a Opal table to a tibble in the R server-side session

@@ -16,4 +16,3 @@ applyDictionary(tibble, variables, categories = NULL)
 \description{
 Apply the dictionary described in a Opal Excel format as attributes of the tibble's columns.
 }
-\keyword{internal}

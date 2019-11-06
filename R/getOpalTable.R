@@ -8,11 +8,12 @@
 #' @param project Project name where the table is located.
 #' @param table Table name from which the tibble should be extracted.
 #' @param variables List of variable names or Javascript expression that selects the variables of a table (ignored if value does not refere to a table). See javascript documentation: http://wiki.obiba.org/display/OPALDOC/Variable+Methods
+#' @param missings Include the missing values (default is TRUE).
 #'
 #' @export
-getOpalTable <- function(opal, project, table, variables = NULL) {
+getOpalTable <- function(opal, project, table, variables = NULL, missings = TRUE) {
   message("Assigning ", project, ".", table, " ...")
-  opal.assign.table.tibble(opal, symbol = ".D", value = paste0(project, ".", table), variables = variables)
+  opal.assign.table.tibble(opal, symbol = ".D", value = paste0(project, ".", table), variables = variables, missings = missings)
   message("Retrieving ", project, ".", table, " ...")
   rval <- opal.execute(opal, ".D")
   opal.symbol_rm(opal, ".D")

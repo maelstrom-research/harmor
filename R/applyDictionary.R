@@ -6,7 +6,7 @@
 #' @param variables A data frame with one row per variable (column name) and then one column per property/attribute.
 #' @param categories A data frame with one row per category (columns variable and name) and then column per property/attribute.
 #'
-#' @keywords internal
+#' @export
 applyDictionary <- function(tibble, variables, categories = NULL) {
   names <- names(tibble)
   applyAttribute <- function(attrs, name, value) {
@@ -39,6 +39,16 @@ applyDictionary <- function(tibble, variables, categories = NULL) {
           attrs <- applyAttribute(attrs, "label", localizedValue(n, var[[n]]))
         } else if (startsWith(n, "description")) {
           attrs <- applyAttribute(attrs, "description", localizedValue(n, var[[n]]))
+        } else if (n == "unit") {
+          attrs <- applyAttribute(attrs, "opal.unit", var[[n]])
+        } else if (n == "referencedEntityType") {
+          attrs <- applyAttribute(attrs, "opal.referenced_entity_type", var[[n]])
+        } else if (n == "mimeType") {
+          attrs <- applyAttribute(attrs, "opal.mime_type", var[[n]])
+        } else if (n == "occurrenceGroupe") {
+          attrs <- applyAttribute(attrs, "opal.occurrence_group", var[[n]])
+        } else if (n == "repeatable") {
+          attrs <- applyAttribute(attrs, "opal.repeatable", var[[n]])
         } else if (n != "name") {
           attrs <- applyAttribute(attrs, n, var[[n]])
         }
@@ -49,19 +59,29 @@ applyDictionary <- function(tibble, variables, categories = NULL) {
         varcats <- categories[categories$variable == var$name,]
         if (nrow(varcats)>0) {
           labels <- varcats$name
-          for (n in names(var)) {
-            if (startsWith(n, "label")) {
-              names(labels) <- localizedValue(n, varcats[[n]])
+          missings <- list()
+          for (n in names(varcats)) {
+            if (startsWith(n, "label")) { # note: multilang labels not supported
+              if (is.null(names(labels))) {
+                names(labels) <- localizedValue(n, varcats[[n]])
+              } else {
+                warning("Multilang labels are not supported")
+              }
+            } else if (n == "missing") {
+              missings <- as.logical(varcats[[n]])
             }
           }
           attributes(tibble[[var$name]])$labels <- labels
-          #clazz <- class(tibble[[var$name]])
-          #if (is.null(clazz)) {
-          #  clazz <- "haven_labelled"
-          #} else {
-          #  clazz <- append(clazz, "haven_labelled")
-          #}
-          class(tibble[[var$name]]) <- "haven_labelled"
+          if (any(missings)) {
+            attributes(tibble[[var$name]])$na_values <- labels[missings]
+          }
+          clazz <- class(tibble[[var$name]])
+          if (is.null(clazz)) {
+            clazz <- "haven_labelled"
+          } else {
+            clazz <- append(clazz, "haven_labelled")
+          }
+          class(tibble[[var$name]]) <- clazz #"haven_labelled"
         }
       }
     }
