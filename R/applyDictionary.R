@@ -8,7 +8,8 @@
 #'
 #' @export
 applyDictionary <- function(tibble, variables, categories = NULL) {
-  names <- names(tibble)
+  tbl <- tibble
+  names <- names(tbl)
   applyAttribute <- function(attrs, name, value) {
     rval <- attrs
     if (is.null(rval)) {
@@ -27,64 +28,81 @@ applyDictionary <- function(tibble, variables, categories = NULL) {
     }
     val
   }
+  naVector <- function(valueType) {
+    naValue <- as.character(NA)
+    if (!is.null(valueType)) {
+      if ("integer" %in% valueType) {
+        naValue <- as.integer(naValue)
+      } else if ("decimal" %in% valueType) {
+        naValue <- as.numeric(naValue)
+      } else if ("boolean" %in% valueType) {
+        naValue <- as.logical(naValue)
+      }
+    }
+    rep(naValue, nrow(tbl))
+  }
   # go through variable descriptions
-  for (i in 1:length(variables)) {
+  for (i in 1:nrow(variables)) {
     var <- variables[i,]
     # do we have a variable and a column with same name
-    if (var$name %in% names) {
-      # make column attributes from variable description
-      for (n in names(var)) {
-        attrs <- attributes(tibble[[var$name]])
-        if (startsWith(n, "label")) {
-          attrs <- applyAttribute(attrs, "label", localizedValue(n, var[[n]]))
-        } else if (startsWith(n, "description")) {
-          attrs <- applyAttribute(attrs, "description", localizedValue(n, var[[n]]))
-        } else if (n == "unit") {
-          attrs <- applyAttribute(attrs, "opal.unit", var[[n]])
-        } else if (n == "referencedEntityType") {
-          attrs <- applyAttribute(attrs, "opal.referenced_entity_type", var[[n]])
-        } else if (n == "mimeType") {
-          attrs <- applyAttribute(attrs, "opal.mime_type", var[[n]])
-        } else if (n == "occurrenceGroupe") {
-          attrs <- applyAttribute(attrs, "opal.occurrence_group", var[[n]])
-        } else if (n == "repeatable") {
-          attrs <- applyAttribute(attrs, "opal.repeatable", var[[n]])
-        } else if (n != "name") {
-          attrs <- applyAttribute(attrs, n, var[[n]])
-        }
-        attributes(tibble[[var$name]]) <- attrs
+    if (!(var$name %in% names)) {
+      tbl[[var$name]] <- naVector(var$valueType)
+      tbl <- tibble::as_tibble(tbl)
+    }
+    # make column attributes from variable description
+    for (n in names(var)) {
+      attrs <- attributes(tbl[[var$name]])
+      if (startsWith(n, "label")) {
+        attrs <- applyAttribute(attrs, "label", localizedValue(n, var[[n]]))
+      } else if (startsWith(n, "description")) {
+        attrs <- applyAttribute(attrs, "description", localizedValue(n, var[[n]]))
+      } else if (n == "valueType") {
+        attrs <- applyAttribute(attrs, "opal.value_type", var[[n]])
+      } else if (n == "unit") {
+        attrs <- applyAttribute(attrs, "opal.unit", var[[n]])
+      } else if (n == "referencedEntityType") {
+        attrs <- applyAttribute(attrs, "opal.referenced_entity_type", var[[n]])
+      } else if (n == "mimeType") {
+        attrs <- applyAttribute(attrs, "opal.mime_type", var[[n]])
+      } else if (n == "occurrenceGroupe") {
+        attrs <- applyAttribute(attrs, "opal.occurrence_group", var[[n]])
+      } else if (n == "repeatable") {
+        attrs <- applyAttribute(attrs, "opal.repeatable", var[[n]])
+      } else if (n != "name") {
+        attrs <- applyAttribute(attrs, n, var[[n]])
       }
-      # look for categories
-      if (!is.null(categories)) {
-        varcats <- categories[categories$variable == var$name,]
-        if (nrow(varcats)>0) {
-          labels <- varcats$name
-          missings <- list()
-          for (n in names(varcats)) {
-            if (startsWith(n, "label")) { # note: multilang labels not supported
-              if (is.null(names(labels))) {
-                names(labels) <- localizedValue(n, varcats[[n]])
-              } else {
-                warning("Multilang labels are not supported")
-              }
-            } else if (n == "missing") {
-              missings <- as.logical(varcats[[n]])
+      attributes(tbl[[var$name]]) <- attrs
+    }
+    # look for categories
+    if (!is.null(categories)) {
+      varcats <- categories[categories$variable == var$name,]
+      if (nrow(varcats)>0) {
+        labels <- varcats$name
+        missings <- list()
+        for (n in names(varcats)) {
+          if (startsWith(n, "label")) { # note: multilang labels not supported
+            if (is.null(names(labels))) {
+              names(labels) <- localizedValue(n, varcats[[n]])
+            } else {
+              warning("Multilang labels are not supported")
             }
+          } else if (n == "missing") {
+            missings <- as.logical(varcats[[n]])
           }
-          attributes(tibble[[var$name]])$labels <- labels
-          if (any(missings)) {
-            attributes(tibble[[var$name]])$na_values <- labels[missings]
-          }
-          clazz <- class(tibble[[var$name]])
-          if (is.null(clazz)) {
-            clazz <- "haven_labelled"
-          } else {
-            clazz <- append(clazz, "haven_labelled")
-          }
-          class(tibble[[var$name]]) <- clazz #"haven_labelled"
         }
+        attributes(tbl[[var$name]])$labels <- labels
+        if (any(missings)) {
+          attributes(tbl[[var$name]])$na_values <- labels[missings]
+        }
+        clazz <- class(tbl[[var$name]])
+        if (is.null(clazz)) {
+          clazz <- "haven_labelled"
+        } else {
+          clazz <- append(clazz, "haven_labelled")
+        }
+        class(tbl[[var$name]]) <- clazz #"haven_labelled"
       }
     }
   }
-  tibble
+  tbl
 }
