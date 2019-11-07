@@ -41,8 +41,22 @@ saveOpalTable <- function(opal, tibble, project, table, overwrite = TRUE, force 
     }
   }
 
+  #message("Assigning ", table, " ...")
+  #opal.assign.data(opal, table, tibble)
+
+  message("Uploading tibble as a R data file ...")
+  file <- tempfile(fileext = ".rda")
+  save(tibble, file = file)
+  opal.file_upload(opal, file, "/tmp")
+  filename <- basename(file)
+  unlink(file)
+  opal.file_write(opal, paste0("/tmp/", filename))
+  opal.file_rm(opal, paste0("/tmp/", filename))
   message("Assigning ", table, " ...")
-  opal.assign.data(opal, table, tibble)
+  opal.execute(opal, paste0("load(file='", filename, "')"))
+  opal.execute(opal, paste0("unlink('", filename, "')"))
+  opal.execute(opal, paste0("assign('", table, "', tibble)"))
+  opal.execute(opal, paste0("rm(tibble)"))
 
   message("Importing ", table, " into ", project, " ...")
   opal.symbol_import(opal, table, project = project, identifiers = identifiers, policy = policy, id.name = id.name, type = type)
