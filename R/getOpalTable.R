@@ -22,6 +22,7 @@ getOpalTable <- function(opal, project, table, variables = NULL, missings = TRUE
   filename <- basename(file)
   opal.execute(opal, paste0("save(.D, file=.file)"))
   opal.symbol_rm(opal, ".D")
+  opal.execute(opal, "gc()")
 
   .tickProgress(pb, tokens = list(what = paste0("Downloading R data file")))
   opalfile <- paste0("/home/", opal$username, "/", filename)

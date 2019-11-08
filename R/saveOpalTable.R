@@ -76,6 +76,7 @@ saveOpalTable <- function(opal, tibble, project, table, overwrite = TRUE, force 
   }
 
   tryCatch(opal.symbol_rm(opal, table))
+  opal.execute(opal, "gc()")
   rval <- table %in% opal.datasource(opal, project)$table
   .tickProgress(pb, tokens = list(what = "Save completed"))
   invisible(rval)
