@@ -16,7 +16,8 @@ Description: This package is a toolbox for the ones willing to implement a datas
     schema, to utility functions to manage data and dictionaries in "Opal".
 Depends:
     opalr,
-    jsonlite
+    jsonlite,
+    progress
 Suggests:
     knitr,
     htmltools,

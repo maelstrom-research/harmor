@@ -61,6 +61,19 @@
   rval
 }
 
+#' Create a new progress instance with default settings.
+#' @import progress
+#' @keywords internal
+.newProgress <- function(format = "  :what [:bar] :percent /:elapsed", clear = getOption("opal.progress.clear", FALSE), total, width = 100) {
+  progress::progress_bar$new(format = format, clear = clear, total = total, width = width)
+}
+
+#' Output the progress status if option "datashield.progress" is allows to.
+#' @keywords internal
+.tickProgress <- function(progress, tokens = list()) {
+  if (getOption("opal.progress", TRUE)) progress$tick(tokens = tokens)
+}
+
 #' @keywords internal
 .toJSONVariables <- function(table = NULL, variables, categories = NULL, pretty = FALSE) {
   varCols <- names(variables)

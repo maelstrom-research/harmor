@@ -41,9 +41,11 @@ applyDictionary <- function(tibble, variables, categories = NULL) {
     }
     rep(naValue, nrow(tbl))
   }
+  pb <- .newProgress(total = 1 + nrow(variables))
   # go through variable descriptions
   for (i in 1:nrow(variables)) {
     var <- variables[i,]
+    .tickProgress(pb, tokens = list(what = var$name))
     # do we have a variable and a column with same name
     if (!(var$name %in% names)) {
       tbl[[var$name]] <- naVector(var$valueType)
@@ -84,7 +86,7 @@ applyDictionary <- function(tibble, variables, categories = NULL) {
             if (is.null(names(labels))) {
               names(labels) <- localizedValue(n, varcats[[n]])
             } else {
-              warning("Multilang labels are not supported")
+              warning("Multilang labels are not supported yet")
             }
           } else if (n == "missing") {
             missings <- as.logical(varcats[[n]])
@@ -97,12 +99,13 @@ applyDictionary <- function(tibble, variables, categories = NULL) {
         clazz <- class(tbl[[var$name]])
         if (is.null(clazz)) {
           clazz <- "haven_labelled"
-        } else {
+        } else if (!("haven_labelled" %in% clazz)) {
           clazz <- append(clazz, "haven_labelled")
         }
-        class(tbl[[var$name]]) <- clazz #"haven_labelled"
+        class(tbl[[var$name]]) <- clazz
       }
     }
   }
+  .tickProgress(pb, tokens = list(what = paste0("Dictionary completed")))
   tbl
 }

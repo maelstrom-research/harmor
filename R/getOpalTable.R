@@ -12,10 +12,29 @@
 #'
 #' @export
 getOpalTable <- function(opal, project, table, variables = NULL, missings = TRUE) {
-  message("Assigning ", project, ".", table, " ...")
+  pb <- .newProgress(total = 5)
+  .tickProgress(pb, tokens = list(what = paste0("Assigning ", project, ".", table)))
   opal.assign.table.tibble(opal, symbol = ".D", value = paste0(project, ".", table), variables = variables, missings = missings)
-  message("Retrieving ", project, ".", table, " ...")
-  rval <- opal.execute(opal, ".D")
+
+  .tickProgress(pb, tokens = list(what = paste0("Saving in R data file")))
+  opal.assign.script(opal, ".file", quote(tempfile(tmpdir = getwd(), fileext = '.rda')))
+  file <- opal.execute(opal, ".file")
+  filename <- basename(file)
+  opal.execute(opal, paste0("save(.D, file=.file)"))
   opal.symbol_rm(opal, ".D")
+
+  .tickProgress(pb, tokens = list(what = paste0("Downloading R data file")))
+  opalfile <- paste0("/home/", opal$username, "/", filename)
+  opal.file_read(opal, filename, opalfile)
+  opal.execute(opal, paste0("unlink(.file)"))
+  opal.file_download(opal, opalfile)
+  opal.file_rm(opal, opalfile)
+
+  .tickProgress(pb, tokens = list(what = paste0("Loading R data file")))
+  env <- new.env()
+  load(filename, envir = env)
+  unlink(filename)
+  rval <- get(".D", envir = env)
+  .tickProgress(pb, tokens = list(what = "Data loaded"))
   rval
 }

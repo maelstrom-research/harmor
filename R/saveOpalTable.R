@@ -25,49 +25,58 @@ saveOpalTable <- function(opal, tibble, project, table, overwrite = TRUE, force 
   if (!("tbl" %in% class(tibble))) {
     stop("The tibble parameter must be a tibble.")
   }
-  message("Checking ", project, " project ...")
+  steps <- 7
+  if (!is.null(variables)) {
+    steps <- steps + 1
+  }
+  pb <- .newProgress(total = steps)
+  .tickProgress(pb, tokens = list(what = paste0("Checking ", project, " project")))
   if (table %in% opal.datasource(opal, project)$table) {
     if (overwrite) {
       if (!force) {
         stop("Destination table needs to be deleted. Use 'force' parameter to proceed.")
       }
-      message("Deleting ", table, " from ", project, " ...")
+      .tickProgress(pb, tokens = list(what = paste0("Deleting ", table, " from ", project)))
       opal.delete(opal, "datasource", project, "table", table)
     } else {
       if (!force) {
         stop("Destination table will be updated. There could be data dictionary conflicts. Use 'force' parameter to proceed.")
       }
-      message("Merging with ", table, " from ", project, " ...")
+      .tickProgress(pb, tokens = list(what = paste0("Merging with ", table, " from ", project)))
     }
+  } else {
+    .tickProgress(pb, tokens = list(what = paste0("Creating table ", table, " in ", project)))
   }
 
-  #message("Assigning ", table, " ...")
-  #opal.assign.data(opal, table, tibble)
-
-  message("Uploading tibble as a R data file ...")
+  .tickProgress(pb, tokens = list(what = paste0("Saving in R data file")))
   file <- tempfile(fileext = ".rda")
   save(tibble, file = file)
+
+  .tickProgress(pb, tokens = list(what = paste0("Uploading R data file")))
   opal.file_upload(opal, file, "/tmp")
   filename <- basename(file)
   unlink(file)
   opal.file_write(opal, paste0("/tmp/", filename))
   opal.file_rm(opal, paste0("/tmp/", filename))
-  message("Assigning ", table, " ...")
+
+  .tickProgress(pb, tokens = list(what = paste0("Loading R data file")))
   opal.execute(opal, paste0("load(file='", filename, "')"))
   opal.execute(opal, paste0("unlink('", filename, "')"))
   opal.execute(opal, paste0("assign('", table, "', tibble)"))
   opal.execute(opal, paste0("rm(tibble)"))
 
-  message("Importing ", table, " into ", project, " ...")
+  .tickProgress(pb, tokens = list(what = paste0("Importing ", table, " into ", project)))
   opal.symbol_import(opal, table, project = project, identifiers = identifiers, policy = policy, id.name = id.name, type = type)
 
   # update dictionary
   if (!is.null(variables)) {
-    message("Updating ", table, " dictionary ...")
+    .tickProgress(pb, tokens = list(what = paste0("Updating ", table, " dictionary")))
     body <- .toJSONVariables(table=table, variables = variables, categories = categories)
     opal.post(opal, "datasource", project, "table", table, "variables", contentType = "application/json", body = body)
   }
 
   tryCatch(opal.symbol_rm(opal, table))
-  invisible(table %in% opal.datasource(opal, project)$table)
+  rval <- table %in% opal.datasource(opal, project)$table
+  .tickProgress(pb, tokens = list(what = "Save completed"))
+  invisible(rval)
 }
