@@ -4,8 +4,12 @@
 \alias{.newProgress}
 \title{Create a new progress instance with default settings.}
 \usage{
-.newProgress(format = "  :what [:bar] :percent /:elapsed",
-  clear = getOption("opal.progress.clear", FALSE), total, width = 100)
+.newProgress(
+  format = "  :what [:bar] :percent /:elapsed",
+  clear = getOption("opal.progress.clear", FALSE),
+  total,
+  width = 100
+)
 }
 \description{
 Create a new progress instance with default settings.

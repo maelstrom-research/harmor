@@ -4,10 +4,16 @@
 \alias{makeHarmonizationBook}
 \title{Make a R markdown book}
 \usage{
-makeHarmonizationBook(opal, project, table, taxonomy = "Mlstr_area",
-  vocabularies = NULL, locale = "en", outDir = file.path(getwd(),
-  "_harmobook"), outFiles = list(domains = "04-domains.Rmd", index =
-  "06-index.Rmd"))
+makeHarmonizationBook(
+  opal,
+  project,
+  table,
+  taxonomy = "Mlstr_area",
+  vocabularies = NULL,
+  locale = "en",
+  outDir = file.path(getwd(), "_harmobook"),
+  outFiles = list(domains = "04-domains.Rmd", index = "06-index.Rmd")
+)
 }
 \arguments{
 \item{opal}{Opal connection object.}

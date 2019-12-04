@@ -4,10 +4,20 @@
 \alias{saveOpalTable}
 \title{Save the tibble as a Opal table}
 \usage{
-saveOpalTable(opal, tibble, project, table, overwrite = TRUE,
-  force = FALSE, identifiers = NULL, policy = "required",
-  id.name = "id", type = "Participant", variables = NULL,
-  categories = NULL)
+saveOpalTable(
+  opal,
+  tibble,
+  project,
+  table,
+  overwrite = TRUE,
+  force = FALSE,
+  identifiers = NULL,
+  policy = "required",
+  id.name = "id",
+  type = "Participant",
+  variables = NULL,
+  categories = NULL
+)
 }
 \arguments{
 \item{opal}{Opal connection object.}

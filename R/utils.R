@@ -119,7 +119,7 @@
       varObj$occurrenceGroup <- jsonlite::unbox(var$occurrenceGroup)
     }
     if ("index" %in% varCols && !is.empty(var$index)) {
-      varObj$isRepeatable <- jsonlite::unbox(as.numeric(var$index))
+      varObj$index <- jsonlite::unbox(as.numeric(var$index))
     }
     attrs <- list()
     j <- 1

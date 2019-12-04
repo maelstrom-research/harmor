@@ -70,6 +70,8 @@ applyDictionary <- function(tibble, variables, categories = NULL) {
         attrs <- applyAttribute(attrs, "opal.occurrence_group", var[[n]])
       } else if (n == "repeatable") {
         attrs <- applyAttribute(attrs, "opal.repeatable", var[[n]])
+      } else if (n == "index") {
+        attrs <- applyAttribute(attrs, "opal.index", var[[n]])
       } else if (n != "name") {
         attrs <- applyAttribute(attrs, n, var[[n]])
       }

@@ -27,6 +27,6 @@ License: GPL-3
 LazyData: true
 URL: https://maelstrom-research.org https://www.obiba.org/pages/products/opal/
 BugReports: https://github.com/maelstrom-research/harmor
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.1
 VignetteBuilder: knitr
 Encoding: UTF-8

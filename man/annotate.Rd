@@ -4,8 +4,7 @@
 \alias{annotate}
 \title{Set variable annotation with a taxonomy term}
 \usage{
-annotate(tibble, variables = NULL, taxonomy = "Mlstr_area", vocabulary,
-  term)
+annotate(tibble, variables = NULL, taxonomy = "Mlstr_area", vocabulary, term)
 }
 \arguments{
 \item{tibble}{Tibble to be annotated.}
